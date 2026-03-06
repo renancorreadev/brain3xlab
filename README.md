@@ -1,14 +1,8 @@
 # Tech interview smart contracts coding problem
 
-<div align="center">
+## Video Walkthrough
 
-### Video Walkthrough
-
-<video src="https://github.com/renancorreadev/brain3xlab/raw/main/docs/explain.mp4" controls width="800"></video>
-
-[Watch on YouTube](https://www.youtube.com/watch?v=YSZc0VPF5xY)
-
-</div>
+[![Watch the video](https://img.youtube.com/vi/YSZc0VPF5xY/maxresdefault.jpg)](https://www.youtube.com/watch?v=YSZc0VPF5xY)
 
 This is a Solidity coding problem for tech interviews. It is designed to take **no more than a few hours**.
 
