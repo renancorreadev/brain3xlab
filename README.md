@@ -1,5 +1,13 @@
 # Tech interview smart contracts coding problem
 
+<div align="center">
+
+### Video Walkthrough
+
+https://github.com/renancorreadev/brain3xlab/raw/main/docs/explain.mp4
+
+</div>
+
 This is a Solidity coding problem for tech interviews. It is designed to take **no more than a few hours**.
 
 ## Getting setup
