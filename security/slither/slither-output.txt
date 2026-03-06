@@ -1,0 +1,88 @@
+Unable to find image 'ghcr.io/crytic/slither:latest' locally
+latest: Pulling from crytic/slither
+374648582aa8: Pulling fs layer
+e5bd10300596: Pulling fs layer
+bf82d2959bfe: Pulling fs layer
+f7ac99461c6b: Pulling fs layer
+c4d6a6646e39: Pulling fs layer
+517f43312bfe: Pulling fs layer
+584b4c0de264: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+0d6e5d3347c5: Pulling fs layer
+a1b2465a0809: Pulling fs layer
+999169899074: Pulling fs layer
+a2817c05e3ea: Pulling fs layer
+4f4fb700ef54: Already exists
+a1b2465a0809: Download complete
+c4d6a6646e39: Download complete
+e5bd10300596: Download complete
+f7ac99461c6b: Download complete
+0d6e5d3347c5: Download complete
+374648582aa8: Download complete
+bf82d2959bfe: Download complete
+999169899074: Download complete
+517f43312bfe: Download complete
+a2817c05e3ea: Download complete
+584b4c0de264: Download complete
+517f43312bfe: Pull complete
+584b4c0de264: Pull complete
+0d6e5d3347c5: Pull complete
+999169899074: Pull complete
+4f4fb700ef54: Pull complete
+a1b2465a0809: Pull complete
+c4d6a6646e39: Pull complete
+e5bd10300596: Pull complete
+a2817c05e3ea: Pull complete
+bf82d2959bfe: Pull complete
+f7ac99461c6b: Pull complete
+374648582aa8: Pull complete
+Digest: sha256:8b1e905ad93a8ddba2f1a4d4b0f0982b0b846d494ad9979ad5b8109c8e8d78e2
+Status: Downloaded newer image for ghcr.io/crytic/slither:latest
+Cannot execute `npx`, is it installed and in PATH?
+Cannot execute `npx`, is it installed and in PATH?
+Problem executing hardhat to fetch configuration, using defaults: [Errno 2] No such file or directory: 'npx'
+Cannot execute `npx`, is it installed and in PATH?
+
+Detector: msg-value-loop
+Token.recordDividend() (contracts/Token.sol#195-206) use msg.value in a loop: share = msg.value.mul(balanceOf[holder]).div(supply) (contracts/Token.sol#201)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#msgvalue-inside-a-loop
+
+Detector: missing-zero-check
+Token.burn(address).dest (contracts/Token.sol#164) lacks a zero-check on :
+		- dest.transfer(amount) (contracts/Token.sol#175)
+Token.withdrawDividend(address).dest (contracts/Token.sol#215) lacks a zero-check on :
+		- dest.transfer(amount) (contracts/Token.sol#224)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
+
+Detector: solc-version
+solc-0.7.0 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
+
+Detector: solc-version
+Version constraint 0.7.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess
+	- AbiReencodingHeadOverflowWithStaticArrayCleanup
+	- DirtyBytesArrayToStorage
+	- DataLocationChangeInInternalOverride
+	- NestedCalldataArrayAbiReencodingSizeValidation
+	- SignedImmutables
+	- ABIDecodeTwoDimensionalArrayMemory
+	- KeccakCaching
+	- EmptyByteArrayCopy
+	- DynamicArrayCleanup.
+It is used by:
+	- 0.7.0 (contracts/IDividends.sol#1)
+	- 0.7.0 (contracts/IERC20.sol#1)
+	- 0.7.0 (contracts/IMintableToken.sol#1)
+	- 0.7.0 (contracts/SafeMath.sol#1)
+	- 0.7.0 (contracts/Token.sol#1)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
+
+Detector: constable-states
+Token.decimals (contracts/Token.sol#17) should be constant 
+Token.name (contracts/Token.sol#18) should be constant 
+Token.symbol (contracts/Token.sol#19) should be constant 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant
+. analyzed (6 contracts with 101 detectors), 8 result(s) found
+INFO:Slither:/src/security/slither/slither-report.json exists already, the overwrite is prevented
