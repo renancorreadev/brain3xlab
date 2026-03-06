@@ -4,7 +4,9 @@
 
 ### Video Walkthrough
 
-https://github.com/renancorreadev/brain3xlab/raw/main/docs/explain.mp4
+[![Video Walkthrough](https://img.youtube.com/vi/YSZc0VPF5xY/maxresdefault.jpg)](https://www.youtube.com/watch?v=YSZc0VPF5xY)
+
+*Click the image above to watch the full walkthrough on YouTube*
 
 </div>
 
