@@ -1,0 +1,128 @@
+name: Security Audit
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  hardhat:
+    name: Hardhat Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile contracts
+        run: npx hardhat compile
+
+      - name: Run Hardhat tests
+        run: npx hardhat test
+
+  forge:
+    name: Forge Tests & Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Install Node dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        run: forge build --sizes
+
+      - name: Run unit tests
+        run: forge test --match-path "test-forge/unit/*" -vvv
+
+      - name: Run fuzz tests
+        run: forge test --match-path "test-forge/fuzz/*" -vvv --gas-report
+
+      - name: Run invariant tests
+        run: forge test --match-path "test-forge/invariant/*" -vvv
+
+      - name: Run security tests
+        run: forge test --match-path "test-forge/security/*" -vvv
+
+      - name: Run all tests (CI profile)
+        run: FOUNDRY_PROFILE=ci forge test -vvv
+
+      - name: Coverage
+        run: forge coverage --report lcov --report summary
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./lcov.info
+
+  slither:
+    name: Slither Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Run Slither
+        uses: crytic/slither-action@v0.4.0
+        id: slither
+        continue-on-error: true
+        with:
+          node-version: 20
+          sarif: results.sarif
+          slither-args: --compile-force-framework hardhat --filter-paths "contracts/Migrations.sol" --json slither-report.json
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: results.sarif
+
+      - name: Upload Slither report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: slither-report
+          path: slither-report.json
+
+  solhint:
+    name: Solhint Linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Solhint
+        run: npm install -g solhint
+
+      - name: Run Solhint
+        run: solhint 'contracts/**/*.sol' || true
